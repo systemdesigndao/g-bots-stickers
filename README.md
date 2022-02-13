@@ -13,7 +13,7 @@ npm install
 ## Generate sticker chunk reverse
 
 ```zsh
-npm run build:generate-sticker-chunk-reverse
+npm run build:generate-sticker-chunk-reverse -- --outputVideoType webm --sourceDir sources/mp4 --bitRate 2500 --size 512:512
 ```
 
 ## Based on

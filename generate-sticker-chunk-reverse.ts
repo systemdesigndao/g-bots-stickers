@@ -1,16 +1,16 @@
-import {$} from 'zx'
+import {$, argv} from 'zx'
 import {globby} from 'globby';
 
 void async function () {
-  const outputVideoType = 'webm';
-  const sourceDir = 'sources/mp4';
+  const outputVideoType = argv.outputVideoType;
+  const sourceDir = argv.sourceDir;
 
   const toMergePostfix = 'ToMerge';
   const reversePostfix = 'Reverse';
   const mergedPostfix = 'Merged';
 
-  const bitRate = 2400;
-  const size = '512:512';
+  const bitRate = argv.bitRate;
+  const size = argv.size;
 
   let videos = await globby([sourceDir]);
 
