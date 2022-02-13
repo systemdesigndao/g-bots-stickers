@@ -1,0 +1,14 @@
+{
+  "type": "module",
+  "scripts": {
+    "build:first": "./generate-sticker-chunk-reverse.mjs",
+    "build:generate-sticker-chunk-reverse": "node --loader ts-node/esm generate-sticker-chunk-reverse.ts"
+  },
+  "devDependencies": {
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "zx": "^5.0.0"
+  }
+}
