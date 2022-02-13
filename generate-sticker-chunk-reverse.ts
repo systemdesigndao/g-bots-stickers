@@ -43,10 +43,16 @@ void async function () {
       $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size},reverse -an ${buildPath}/${sourceNameToMergeReverse}.${outputVideoType}`
     ]);
 
+    await Promise.all([
+      await $`ffmpeg -y -i ${buildPath}/${sourceNameToMerge}.webm -c:v libx264 -b:a 192k ${buildPath}/${sourceNameToMerge}.mp4`,
+      await $`ffmpeg -y -i ${buildPath}/${sourceNameToMergeReverse}.webm -c:v libx264 -b:a 192k ${buildPath}/${sourceNameToMergeReverse}.mp4`
+    ])
+
     // TODO:
     // 1. Echo realization scheme docs/images/generate-sticker-chunk-reverse.jpg
     await $`echo "file '${sourceNameToMerge}.${outputVideoType}'\nfile '${sourceNameToMergeReverse}.${outputVideoType}'" > ${buildPath}/${sourceName + toMergePostfix}.txt`;
 
     await $`ffmpeg -y -f concat -i ${buildPath}/${sourceName + toMergePostfix}.txt -c copy ${buildPath}/${sourceName + mergedPostfix}.webm`;
+    await $`ffmpeg -y -i ${buildPath}/${sourceName + mergedPostfix}.webm -c:v libx264 -c:a aac -strict experimental -b:a 192k ${buildPath}/${sourceName + mergedPostfix}.mp4`
     }
 }()
