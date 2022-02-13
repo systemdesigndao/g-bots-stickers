@@ -1,42 +1,51 @@
 import {$} from 'zx'
+import {globby} from 'globby';
 
 void async function () {
   const sourceVideoType = 'mp4';
   const outputVideoType = 'webm';
   const sourceDir = 'sources/mp4';
-  const sourceName = 'TonBotsNftRobot1Face';
-  const sourcePath = `${sourceDir}/${sourceName}`;
-  const toMergePrefix = 'ToMerge';
-  const reversePrefix = 'Reverse';
-  const mergedPrefix = 'Merged';
+
+  const toMergePostfix = 'ToMerge';
+  const reversePostfix = 'Reverse';
+  const mergedPostfix = 'Merged';
 
   const bitRate = 2400;
   const size = '512:512';
 
-  const sourceNameToMerge = sourceName + toMergePrefix;
-  const sourceNameToMergeReverse = sourceNameToMerge + reversePrefix;
+  let videos = await globby([sourceDir]);
 
-  const buildDir = 'dist';
-  const buildPath = `${buildDir}/${sourceName}`;
+  for (let video of videos) {
+    const [sourcesDir, videoTypeDir, file] = video.split('/');
+    const [sourceName, videoType] = file.split('.');
+    const sourceDir = `${sourcesDir}/${videoTypeDir}`;
+    const sourcePath = `${sourceDir}/${sourceName}`;
 
-  await $`
-  if [ ! -d "${buildDir}" ]; then
-    mkdir ${buildDir}
-  fi
-  `
+    const sourceNameToMerge = sourceName + toMergePostfix;
+    const sourceNameToMergeReverse = sourceNameToMerge + reversePostfix;
 
-  await $`
-  if [ ! -d "${buildPath}" ]; then
-    mkdir ${buildPath}
-  fi
-  `
+    const buildDir = 'dist';
+    const buildPath = `${buildDir}/${sourceName}`;
 
-  await Promise.all([
-    $`ffmpeg -y -i ${sourcePath}.${sourceVideoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size} -an ${buildPath}/${sourceNameToMerge}.${outputVideoType}`,
-    $`ffmpeg -y -i ${sourcePath}.${sourceVideoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size},reverse -an ${buildPath}/${sourceNameToMergeReverse}.${outputVideoType}`
-  ]);
+    await $`
+    if [ ! -d "${buildDir}" ]; then
+      mkdir ${buildDir}
+    fi
+    `
 
-  await $`echo "file '${sourceNameToMerge}.webm'\nfile '${sourceNameToMergeReverse}.webm'" > ${buildPath}/${sourceName + toMergePrefix}.txt`;
+    await $`
+    if [ ! -d "${buildPath}" ]; then
+      mkdir ${buildPath}
+    fi
+    `
 
-  await $`ffmpeg -y -f concat -i ${buildPath}/${sourceName + toMergePrefix}.txt -c copy ${buildPath}/${sourceName + mergedPrefix}.webm`;
+    await Promise.all([
+      $`ffmpeg -y -i ${sourcePath}.${sourceVideoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size} -an ${buildPath}/${sourceNameToMerge}.${outputVideoType}`,
+      $`ffmpeg -y -i ${sourcePath}.${sourceVideoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size},reverse -an ${buildPath}/${sourceNameToMergeReverse}.${outputVideoType}`
+    ]);
+
+    await $`echo "file '${sourceNameToMerge}.${outputVideoType}'\nfile '${sourceNameToMergeReverse}.${outputVideoType}'" > ${buildPath}/${sourceName + toMergePostfix}.txt`;
+
+    await $`ffmpeg -y -f concat -i ${buildPath}/${sourceName + toMergePostfix}.txt -c copy ${buildPath}/${sourceName + mergedPostfix}.webm`;
+    }
 }()
