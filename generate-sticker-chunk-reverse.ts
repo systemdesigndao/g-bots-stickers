@@ -44,8 +44,8 @@ void async function () {
     ]);
 
     await Promise.all([
-      $`ffmpeg -y -i ${buildPath}/${sourceNameToMerge}.webm -c:v libx264 -b:a 192k ${buildPath}/${sourceNameToMerge}.mp4`,
-      $`ffmpeg -y -i ${buildPath}/${sourceNameToMergeReverse}.webm -c:v libx264 -b:a 192k ${buildPath}/${sourceNameToMergeReverse}.mp4`
+      $`ffmpeg -y -i ${buildPath}/${sourceNameToMerge}.webm -c:v libx264 -b:a ${bitRate}k ${buildPath}/${sourceNameToMerge}.mp4`,
+      $`ffmpeg -y -i ${buildPath}/${sourceNameToMergeReverse}.webm -c:v libx264 -b:a ${bitRate}k ${buildPath}/${sourceNameToMergeReverse}.mp4`
     ])
 
     // TODO:
