@@ -1,6 +1,7 @@
 #!/usr/bin/env zx
 
-const videoType = 'mp4';
+const sourceVideoType = 'mp4';
+const outputVideoType = 'webm';
 const sourceDir = 'sources/mp4';
 const sourceName = 'TonBotsNftRobot1Face';
 const sourcePath = `${sourceDir}/${sourceName}`;
@@ -30,8 +31,8 @@ fi
 `
 
 await Promise.all([
-  $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size} -an ${buildPath}/${sourceNameToMerge}.webm`,
-  $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size},reverse -an ${buildPath}/${sourceNameToMergeReverse}.webm`
+  $`ffmpeg -y -i ${sourcePath}.${sourceVideoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size} -an ${buildPath}/${sourceNameToMerge}.${outputVideoType}`,
+  $`ffmpeg -y -i ${sourcePath}.${sourceVideoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size},reverse -an ${buildPath}/${sourceNameToMergeReverse}.${outputVideoType}`
 ]);
 
 await $`echo "file '${sourceNameToMerge}.webm'\nfile '${sourceNameToMergeReverse}.webm'" > ${buildPath}/${sourceName + toMergePrefix}.txt`;
