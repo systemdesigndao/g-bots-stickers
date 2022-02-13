@@ -1,7 +1,6 @@
 {
   "type": "module",
   "scripts": {
-    "build:first": "./generate-sticker-chunk-reverse.mjs",
     "build:generate-sticker-chunk-reverse": "node --loader ts-node/esm generate-sticker-chunk-reverse.ts"
   },
   "devDependencies": {
