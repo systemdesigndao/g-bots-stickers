@@ -8,7 +8,7 @@ const toMergePrefix = 'ToMerge';
 const reversePrefix = 'Reverse';
 const mergedPrefix = 'Merged';
 
-const bitRate = 2400
+const bitRate = 2400;
 const size = '512:512';
 
 const sourceNameToMerge = sourceName + toMergePrefix;
@@ -31,8 +31,8 @@ fi
 `
 
 await Promise.all([
-  $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -filter:v "scale=512:512" -an ${buildPath}/${sourceNameToMerge}.webm`,
-  $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -filter:v "scale=512:512, reverse" -an ${buildPath}/${sourceNameToMergeReverse}.webm`
+  $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size} -an ${buildPath}/${sourceNameToMerge}.webm`,
+  $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size},reverse -an ${buildPath}/${sourceNameToMergeReverse}.webm`
 ]);
 
 await $`echo "file '${sourceNameToMerge}.webm'\nfile '${sourceNameToMergeReverse}.webm'" > ${buildPath}/${sourceName + toMergePrefix}.txt`;
