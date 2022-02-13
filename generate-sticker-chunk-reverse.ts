@@ -2,7 +2,6 @@ import {$} from 'zx'
 import {globby} from 'globby';
 
 void async function () {
-  const sourceVideoType = 'mp4';
   const outputVideoType = 'webm';
   const sourceDir = 'sources/mp4';
 
@@ -40,8 +39,8 @@ void async function () {
     `
 
     await Promise.all([
-      $`ffmpeg -y -i ${sourcePath}.${sourceVideoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size} -an ${buildPath}/${sourceNameToMerge}.${outputVideoType}`,
-      $`ffmpeg -y -i ${sourcePath}.${sourceVideoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size},reverse -an ${buildPath}/${sourceNameToMergeReverse}.${outputVideoType}`
+      $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size} -an ${buildPath}/${sourceNameToMerge}.${outputVideoType}`,
+      $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size},reverse -an ${buildPath}/${sourceNameToMergeReverse}.${outputVideoType}`
     ]);
 
     await $`echo "file '${sourceNameToMerge}.${outputVideoType}'\nfile '${sourceNameToMergeReverse}.${outputVideoType}'" > ${buildPath}/${sourceName + toMergePostfix}.txt`;
