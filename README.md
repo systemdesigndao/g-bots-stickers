@@ -1,6 +1,6 @@
 # G-Bots Stickers
 
-## Generate sticker
+## Generate sticker chunk reverse
 
 ```zsh
 chmod +x ./generate-sticker-chunk-reverse.mjs # give permissions to execute script
