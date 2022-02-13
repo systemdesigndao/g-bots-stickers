@@ -14,18 +14,17 @@ const size = '512:512';
 const sourceNameToMerge = sourceName + toMergePrefix;
 const sourceNameToMergeReverse = sourceNameToMerge + reversePrefix;
 
-const buildPath = `dist/${sourceName}`;
+const buildDir = 'dist';
+const buildPath = `${buildDir}/${sourceName}`;
 
 await $`
-if [ ! -d "dist" ]; then
-  # Script statements if $DIR exists.
-  mkdir dist
+if [ ! -d "${buildDir}" ]; then
+  mkdir ${buildDir}
 fi
 `
 
 await $`
 if [ ! -d "${buildPath}" ]; then
-  # script statements if $DIR doesn't exist.
   mkdir ${buildPath}
 fi
 `
