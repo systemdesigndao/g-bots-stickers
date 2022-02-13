@@ -49,7 +49,7 @@ void async function () {
     ])
 
     // TODO:
-    // 1. Echo realization scheme docs/images/generate-sticker-chunk-reverse.jpg
+    // 1. Echo realization scheme (repeating y(n)) docs/images/generate-sticker-chunk-reverse.jpg
     await $`echo "file '${sourceNameToMerge}.${outputVideoType}'\nfile '${sourceNameToMergeReverse}.${outputVideoType}'" > ${buildPath}/${sourceName + toMergePostfix}.txt`;
 
     await $`ffmpeg -y -f concat -i ${buildPath}/${sourceName + toMergePostfix}.txt -c copy ${buildPath}/${sourceName + mergedPostfix}.webm`;
