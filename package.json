@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "build:generate-sticker-chunk-reverse": "node --loader ts-node/esm generate-sticker-chunk.ts"
+    "build:generate-sticker-chunks": "node --loader ts-node/esm generate-sticker-chunks.ts"
   },
   "devDependencies": {
     "ts-node": "^10.5.0",

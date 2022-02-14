@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-`npm16.13.2`, `npm 8.1.2`
+`ffmpeg5.0`, `npm16.13.2`, `npm 8.1.2`
 
 Installing packages:
 
@@ -10,10 +10,18 @@ Installing packages:
 npm install
 ```
 
-## Generate sticker chunk reverse
+## Generate sticker chunks
+
+All files
 
 ```zsh
-npm run build:generate-sticker-chunk-reverse -- --outputVideoType webm --sourceDir sources/mp4 --bitRate 2500 --size 512:512
+npm run build:generate-sticker-chunks -- --outputVideoType webm --sourceDir sources/ --bitRate 1300 --size 512:512 --only all
+```
+
+One file
+
+```zsh
+npm run build:generate-sticker-chunks -- --outputVideoType webm --sourceDir sources/ --bitRate 1300 --size 512:512 --only fight_01
 ```
 
 ## Based on
