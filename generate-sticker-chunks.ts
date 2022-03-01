@@ -42,14 +42,14 @@ void async function () {
 
       // make webm stickers
       await Promise.all([
-        $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size},setpts=PTS/2,fps=30 -an ${buildPath}/${sourceNameToMerge}.${outputVideoType}`,
-        $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size},reverse,setpts=PTS/2,fps=30 -an ${buildPath}/${sourceNameToMergeReverse}.${outputVideoType}`
+        $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size},fps=30 -an ${buildPath}/${sourceNameToMerge}.${outputVideoType}`,
+        $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size},reverse,fps=30 -an ${buildPath}/${sourceNameToMergeReverse}.${outputVideoType}`
       ]);
 
       // make telegram avatars
       await Promise.all([
-        $`ffmpeg -y -i ${buildPath}/${sourceNameToMerge}.${outputVideoType} -c:v libx264 -b:a ${bitRate}k ${buildPath}/${sourceNameToMerge}.mp4`,
-        $`ffmpeg -y -i ${buildPath}/${sourceNameToMergeReverse}.${outputVideoType} -c:v libx264 -b:a ${bitRate}k ${buildPath}/${sourceNameToMergeReverse}.mp4`
+        $`ffmpeg -y -i ${buildPath}/${sourceNameToMerge}.${outputVideoType} -c:v libx264 -b:v ${bitRate}k ${buildPath}/${sourceNameToMerge}.mp4`,
+        $`ffmpeg -y -i ${buildPath}/${sourceNameToMergeReverse}.${outputVideoType} -c:v libx264 -b:v ${bitRate}k ${buildPath}/${sourceNameToMergeReverse}.mp4`
       ])
 
       // TODO:
