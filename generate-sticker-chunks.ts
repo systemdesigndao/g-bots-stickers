@@ -4,6 +4,8 @@ import {globby} from 'globby';
 void async function () {
   const outputVideoType = argv.outputVideoType;
   const sourceDir = argv.sourceDir;
+  const fps = argv.fps;
+  const playbackRate = argv.playbackRate;
 
   const toMergePostfix = 'ToMerge';
   const reversePostfix = 'Reverse';
@@ -42,8 +44,8 @@ void async function () {
 
       // make webm stickers
       await Promise.all([
-        $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size},fps=30 -an ${buildPath}/${sourceNameToMerge}.${outputVideoType}`,
-        $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size},reverse,fps=30 -an ${buildPath}/${sourceNameToMergeReverse}.${outputVideoType}`
+        $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size},fps=${fps},setpts=${playbackRate}*PTS -an ${buildPath}/${sourceNameToMerge}.${outputVideoType}`,
+        $`ffmpeg -y -i ${sourcePath}.${videoType} -c:v libvpx-vp9 -b:v ${bitRate}k -vf scale=${size},reverse,fps=${fps},setpts=${playbackRate}*PTS -an ${buildPath}/${sourceNameToMergeReverse}.${outputVideoType}`
       ]);
 
       // make telegram avatars
