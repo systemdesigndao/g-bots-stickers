@@ -10,7 +10,17 @@ Installing packages:
 npm install
 ```
 
+## Prepare to generate sticker chunks
+
+Create `sources` dir:
+
+```zsh
+mkdir sources
+```
+
 ## Generate sticker chunks
+
+And put content into the dir.
 
 All files
 
